@@ -16,9 +16,10 @@ public class Role {
 	@Column
 	private Long id;
 	
+	
 	@Column
 	@NotEmpty(message="Can not be empty")
-	private String role;
+	private String name;
 	
 	public Role(){
 		
@@ -27,21 +28,25 @@ public class Role {
 	public Role(Long id, String name) {
 
 		this.id = id;
-		this.role = name;
+		this.name = name;
 	}
 	
 	public Role( String name) {
-		this.role = name;
+		this.name = name;
 	}
 
 	public String getName() {
-		return role;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.role = name;
+		this.name = name;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
 	
 
 }

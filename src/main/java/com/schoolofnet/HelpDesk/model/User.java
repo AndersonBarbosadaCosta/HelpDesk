@@ -63,7 +63,7 @@ public class User {
 	private String email;
 
 	@Column
-	private Boolean active;
+	private Boolean active =true;
 
 	@NotEmpty(message = "can not be empty")
 	@Length(min = 5, message = "You need to provide a password that contains at least 5 characters ")
@@ -124,4 +124,11 @@ public class User {
 		this.password = password;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+
+	<div class="col-xs-12 col-md-12 text-center">
+		<h4>Update User</h4>
+		<form th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" th:method="put">
+		<input type="hidden" th:filed="*{id}"/>
+		<p th:text="${fields}"/>
+		 <div class="row">
+		 <div class="form-group col-md-6 col-xs-12">
+				<input type="text" th:field="*{name}" name="name"
+					class="form-control" placeholder="Enter user name" />
+					<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">User name errors</span>
+			</div>
+			
+			<div class="form-group col-md-6 col-xs-12">
+				<input type="text" th:field="*{lastName}" name="lastName"
+					class="form-control" placeholder="Enter last name" />
+					<span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">User last name errors</span>
+			</div>
+			 </div>
+			
+			<div class="form-group">
+				<input type="email" th:field="*{email}" name="email"
+					class="form-control" placeholder="Enter email" />
+					<span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">User Email errors</span>
+			</div>
+			
+			<div class="form-group">
+				<input type="password" th:field="*{password}" name="password"
+					class="form-control" placeholder="Enter password" />
+					<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">User password errors</span>
+			</div>
+			
+			<div class="form-group">
+			<label class="custom-control custom-checkbox">
+				<input type="checkbox" th:field="*{active}" name="active"
+					class="custom-control-input"  />
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description">Active?</span>
+					</label>
+			</div>
+		
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		
+			
+		</form>
+	</div>
+
+</th:block>
+</html>
