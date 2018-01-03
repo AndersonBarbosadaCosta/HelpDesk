@@ -1,11 +1,16 @@
 package com.schoolofnet.HelpDesk.services;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.schoolofnet.HelpDesk.Repositories.RolesRepository;
 import com.schoolofnet.HelpDesk.Repositories.UserRepository;
+import com.schoolofnet.HelpDesk.model.Role;
 import com.schoolofnet.HelpDesk.model.User;
 
 @Service
@@ -14,10 +19,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository repositorio;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
-	public UserServiceImpl(UserRepository repositorio) {
+	@Autowired
+	private RolesRepository roleRepositorio;
+	
+	public UserServiceImpl(UserRepository repositorio,BCryptPasswordEncoder passwordEncoder,RolesRepository roleRepositorio) {
 		
 		this.repositorio = repositorio;
+		this.passwordEncoder = passwordEncoder;
+		this.roleRepositorio= roleRepositorio;
 	}
 
 	@Override
@@ -28,7 +40,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(User user) {
- 
+		Role roleUser = this.roleRepositorio.findByName("USER");
+		
+     user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+     user.setRoles(new HashSet<Role>(Arrays.asList(roleUser)));
      return this.repositorio.save(user);
 
 	}
@@ -56,8 +71,11 @@ public class UserServiceImpl implements UserService {
 			userAlterar.setName(user.getName());
 			userAlterar.setLastName(user.getLastName());
 			userAlterar.setEmail(user.getEmail());
-			userAlterar.setPassword(user.getPassword());
+			userAlterar.setPassword(this.passwordEncoder.encode(user.getPassword()));
 			userAlterar.setActive(user.getActive());
+			
+			Role userRole=this.roleRepositorio.findByName(user.getRoles().iterator().next().getName());
+			userAlterar.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 			
 			this.repositorio.save(userAlterar);
 			return true;

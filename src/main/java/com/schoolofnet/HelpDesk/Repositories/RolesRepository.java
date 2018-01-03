@@ -6,4 +6,6 @@ import com.schoolofnet.HelpDesk.model.Role;
 
 public interface RolesRepository extends JpaRepository<Role, Long> {
 
+	Role findByName(String name);
+
 }
