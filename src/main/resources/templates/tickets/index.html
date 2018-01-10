@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+  
+<th:block layout:fragment="content">
+<div class="col-xs-12 col-md-12">
+<a href="/tickets/new" class="btn btn-success">Create</a>
+ </div>
+<div class="col-xs-12 col-md-12">
+<h5 class="mt-4 mb-4">Listing Tickets</h5>
+<table class="table table-bordered">
+   <thead>
+     <tr>
+     <td> Ticket Name</td>
+     <td> Data Created</td>
+    <td> Finished?</td>
+    <td> Actions</td>
+      </tr>
+   </thead>
+   
+   <tbody>
+        <tr th:each="ticket: ${list}" >
+        <td th:text="${ticket.nome}"> </td>
+        <td th:text="${#dates.format(ticket.created,'dd/MM/yyyy')}"></td>   
+      <td th:switch="${ticket.finished}">
+     <span th:case="${true}" class="badge badge-success" th:text="${ticket.finished}"></span>
+      <span th:case="${false}" class="badge badge-danger" th:text="${ticket.finished}"></span>
+     </td>
+       <td ><form th:action="@{/tickets/{id}(id= ${ticket.id})}" th:method="get" class="inline"><button class="btn btn-secondary">See</button></form>
+       <form th:action="@{/tickets/{id}(id= ${ticket.id})}" th:method="delete" class="inline"><button class="btn btn-danger">Delete</button></form>
+       <form th:action="@{/tickets/edit/{id}(id= ${ticket.id})}" th:method="get" class="inline"><button class="btn btn-success">Edit</button></form></td>
+         </tr>
+   </tbody>
+</table>
+</div>
+
+</th:block>
+</html>

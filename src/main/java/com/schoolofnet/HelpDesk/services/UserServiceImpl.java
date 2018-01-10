@@ -88,4 +88,10 @@ public class UserServiceImpl implements UserService {
 	public User show(Long id) {
 		return findById(id);
 	}
+
+	@Override
+	public List<User> findAllWhereRoleEquals(Long role_id,Long user_id) {
+		// TODO Auto-generated method stub
+		return this.repositorio.findAllWhereRoleEquals(role_id,user_id);
+	}
 }

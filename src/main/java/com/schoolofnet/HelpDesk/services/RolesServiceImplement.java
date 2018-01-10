@@ -46,5 +46,11 @@ public class RolesServiceImplement implements RolesService {
 		return this.repository.findOne(id);
 	}
 
+	@Override
+	public Role findByName(String name) {
+		
+		return this.repository.findByName(name);
+	}
+
 	
 }
