@@ -64,7 +64,7 @@ public class User {
 	private String email;
 
 	@Column
-	private Boolean active =true;
+	private Boolean active = true;
 
 	@NotEmpty(message = "can not be empty")
 	@Length(min = 5, message = "You need to provide a password that contains at least 5 characters ")
@@ -72,18 +72,20 @@ public class User {
 	private String password;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "users_roles",
-	joinColumns = @JoinColumn(name = "user_id") , 
-	inverseJoinColumns = @JoinColumn(name = "role_id") )
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id") , inverseJoinColumns = @JoinColumn(name = "role_id") )
 	private Set<Role> roles;
-	
+
 	@Column
-	@OneToMany(cascade= CascadeType.ALL,mappedBy="userOpen")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userOpen")
 	private Set<Ticket> tickets;
-	
+
 	@Column
-	@OneToMany(cascade= CascadeType.ALL,mappedBy="tecnico")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "tecnico")
 	private Set<Ticket> ticketsTecnico;
+
+	@Column
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userInteraction")
+	private Set<Interaction> interactions;
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -136,7 +138,7 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}

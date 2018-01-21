@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -93,5 +95,14 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllWhereRoleEquals(Long role_id,Long user_id) {
 		// TODO Auto-generated method stub
 		return this.repositorio.findAllWhereRoleEquals(role_id,user_id);
+	}
+
+	@Override
+	public User findCurrentUser() {
+		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+		
+		String userName= auth.getName();
+		User userLogged = this.repositorio.findByEmail(userName);
+		return userLogged;
 	}
 }

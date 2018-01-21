@@ -1,7 +1,9 @@
 package com.schoolofnet.HelpDesk.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -52,6 +53,18 @@ public class Ticket {
 	@JoinColumn(name = "tecnico_id")
 	@JsonBackReference
 	private User tecnico;
+	
+	@Column
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="ticket")
+	private List<Interaction>interactions;
+
+	public List<Interaction> getInteractions() {
+		return interactions;
+	}
+
+	public void setInteractions(List<Interaction> interactions) {
+		this.interactions = interactions;
+	}
 
 	@PrePersist
 	public void prePersist() {

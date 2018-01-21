@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout"
+	>
 
 <th:block layout:fragment="content">
 
@@ -22,7 +24,41 @@
 	     </ul>
 	   </div>	
 	</div>
-   <form th:action="@{/tickets/}" th:object="${ticket}" th:method="post"></form>
+   
    <a href="/tickets" class="btn btn-default">Back</a>
+   <div class="col-xs-12 col-md-12">
+   <hr/>
+   <h2>New Interaction</h2>
+   <form th:action="@{/tickets/{ticketId}/interactions(ticketId= ${ticket.id})}" th:object="${interaction}" th:method="post">
+   <div class="form-group">
+     <input type="text" disable="true" class="form-control" th:value="${#authentication.name}"/>
+   </div>
+   
+   <div class="form-group">
+     <textarea class="form-control" th:field="*{text}" placeholder="Enter text interaction"></textarea>
+   </div>
+   <div class="form-group">
+     <button type="submit" class="btn btn-success">Save </button>
+   </div>
+   </form>
+   </div>
+    <hr/>
+   
+   <h2>List Interactions</h2>
+   <hr/>
+   <div class="col-xs-12 col-md-12" th:each="interact: ${interactions}">
+       <div class="col-xs-10 col-md-10">
+         <strong th:text="${interact.userInteraction.email} + ' comments: '"></strong>
+         <p th:text="${interact.text}"></p>
+       </div> 
+       <div class="col-xs-2 col-md-2" th:switch="${userLogged.roles[0].name}">
+          <form th:case="ADMIN" th:action="@{/tickets/{ticketId}/interactions/{id}(ticketId=${ticket.id},id=${interact.id})}" th:method="delete">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <form th:case="USER" th:if="${userLogged.id != ticket.userOpen.id}" th:action="@{/tickets/{ticketId}/interactions/{id}(ticketId=${ticket.id},id=${interact.id})}" th:method="delete">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+       </div>    
+   </div>
 </th:block>
 </html>
