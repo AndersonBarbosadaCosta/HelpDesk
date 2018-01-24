@@ -115,4 +115,10 @@ public class TicketServiceImplement implements TicketService {
 		return this.ticketRepository.findOne(id);
 	}
 
+	@Override
+	public List<Ticket> reportsTicketsByDays(Integer day) {
+	
+		return this.ticketRepository.reportsTicketsByDays(day);
+	}
+
 }

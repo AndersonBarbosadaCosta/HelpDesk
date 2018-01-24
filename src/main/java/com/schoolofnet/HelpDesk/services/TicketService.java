@@ -19,5 +19,7 @@ public interface TicketService {
 	public Boolean update(Ticket ticket, Long id);
 	
 	public Model findAllTechicals(Model model);
+	
+	public List<Ticket> reportsTicketsByDays(Integer day);
 
 }

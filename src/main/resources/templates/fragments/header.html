@@ -17,7 +17,13 @@
                 <a href="/roles" class="nav-link" sec:authorize="hasAuthority('ADMIN')">Roles</a>
             </li><li class="nav-item">
                 <a href="/tickets" class="nav-link" >Tickets</a>
-            </li>           
+            </li> 
+            <li class="nav-item">
+                <a href="/reports/tickets" class="nav-link" sec:authorize="hasAuthority('ADMIN')">Reports Ticket HTML</a>
+            </li>   
+            <li class="nav-item">
+                <a href="/reports/tickets/pdfgen" class="nav-link" sec:authorize="hasAuthority('ADMIN')">Reports Ticket PDF</a>
+            </li>        
         </ul>
         </div>
         <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
